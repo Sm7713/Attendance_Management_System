@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ce79ecd5c83e4c5e9d2fdd7ebc3c7948" Name="Diagram1" ZoomLevel="97">
+        <EntityTypeShape EntityType="AttendanceModel.Book" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AttendanceModel.Student" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AttendanceModel.Attendance" Width="1.5" PointX="5" PointY="1" />
+        <AssociationConnector Association="AttendanceModel.FK_Attendance_Student" />
+        <EntityTypeShape EntityType="AttendanceModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="AttendanceModel.Subject" Width="1.5" PointX="7.5" PointY="2.125" />
+        <EntityTypeShape EntityType="AttendanceModel.Teacher" Width="1.5" PointX="3.125" PointY="3.75" />
+        <AssociationConnector Association="AttendanceModel.FK_Attendance_Subject" />
+        <AssociationConnector Association="AttendanceModel.FK_Subject_Teacher" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="AttendanceModel.FK_Attendance_Teacher" />
+        <EntityTypeShape EntityType="AttendanceModel.Class" Width="1.5" PointX="4.875" PointY="5.875" />
+        <AssociationConnector Association="AttendanceModel.FK_Attendance_Class" />
+        <AssociationConnector Association="AttendanceModel.FK_Class_Student" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AttendanceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="gender" Type="Boolean" />
+    <Property Name="level" Type="Byte" />
+    <NavigationProperty Name="Attendance" Relationship="AttendanceModel.FK_Attendance_Student" FromRole="Student" ToRole="Attendance" />
+    <NavigationProperty Name="Class" Relationship="AttendanceModel.FK_Class_Student" FromRole="Student" ToRole="Class" />
+    <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityContainer Name="AttendanceEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Book" EntityType="Self.Book" />
+    <EntitySet Name="Student" EntityType="Self.Student" />
+    <EntitySet Name="Attendance" EntityType="AttendanceModel.Attendance" />
+    <AssociationSet Name="FK_Attendance_Student" Association="AttendanceModel.FK_Attendance_Student">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="Attendance" EntitySet="Attendance" />
+    </AssociationSet>
+    <EntitySet Name="sysdiagrams" EntityType="AttendanceModel.sysdiagrams" />
+    <EntitySet Name="Subject" EntityType="AttendanceModel.Subject" />
+    <EntitySet Name="Teacher" EntityType="AttendanceModel.Teacher" />
+    <AssociationSet Name="FK_Attendance_Subject" Association="AttendanceModel.FK_Attendance_Subject">
+      <End Role="Subject" EntitySet="Subject" />
+      <End Role="Attendance" EntitySet="Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Subject_Teacher" Association="AttendanceModel.FK_Subject_Teacher">
+      <End Role="Teacher" EntitySet="Teacher" />
+      <End Role="Subject" EntitySet="Subject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Attendance_Teacher" Association="AttendanceModel.FK_Attendance_Teacher">
+      <End Role="Teacher" EntitySet="Teacher" />
+      <End Role="Attendance" EntitySet="Attendance" />
+    </AssociationSet>
+    <EntitySet Name="Class" EntityType="AttendanceModel.Class" />
+    <AssociationSet Name="FK_Attendance_Class" Association="AttendanceModel.FK_Attendance_Class">
+      <End Role="Class" EntitySet="Class" />
+      <End Role="Attendance" EntitySet="Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Class_Student" Association="AttendanceModel.FK_Class_Student">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="Class" EntitySet="Class" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Attendance">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="attendance1" Type="Boolean" />
+    <Property Name="student_id" Type="Int32" />
+    <NavigationProperty Name="Student" Relationship="AttendanceModel.FK_Attendance_Student" FromRole="Attendance" ToRole="Student" />
+    <Property Name="time" Type="DateTime" Precision="3" />
+    <Property Name="subject_id" Type="Int32" />
+    <NavigationProperty Name="Subject" Relationship="AttendanceModel.FK_Attendance_Subject" FromRole="Attendance" ToRole="Subject" />
+    <Property Name="teach_id" Type="Int32" />
+    <NavigationProperty Name="Teacher" Relationship="AttendanceModel.FK_Attendance_Teacher" FromRole="Attendance" ToRole="Teacher" />
+    <Property Name="class_id" Type="Int32" />
+    <NavigationProperty Name="Class" Relationship="AttendanceModel.FK_Attendance_Class" FromRole="Attendance" ToRole="Class" />
+    <Property Name="class_time" Type="Double" />
+  </EntityType>
+  <Association Name="FK_Attendance_Student">
+    <End Type="AttendanceModel.Student" Role="Student" Multiplicity="0..1" />
+    <End Type="AttendanceModel.Attendance" Role="Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="student_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Subject">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="teacher_id" Type="Int32" />
+    <Property Name="class_id" Type="Int32" />
+    <NavigationProperty Name="Attendance" Relationship="AttendanceModel.FK_Attendance_Subject" FromRole="Subject" ToRole="Attendance" />
+    <NavigationProperty Name="Teacher" Relationship="AttendanceModel.FK_Subject_Teacher" FromRole="Subject" ToRole="Teacher" />
+  </EntityType>
+  <EntityType Name="Teacher">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name_teach" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Subject" Relationship="AttendanceModel.FK_Subject_Teacher" FromRole="Teacher" ToRole="Subject" />
+    <NavigationProperty Name="Attendance" Relationship="AttendanceModel.FK_Attendance_Teacher" FromRole="Teacher" ToRole="Attendance" />
+    <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Attendance_Subject">
+    <End Type="AttendanceModel.Subject" Role="Subject" Multiplicity="0..1" />
+    <End Type="AttendanceModel.Attendance" Role="Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="subject_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Subject_Teacher">
+    <End Type="AttendanceModel.Teacher" Role="Teacher" Multiplicity="0..1" />
+    <End Type="AttendanceModel.Subject" Role="Subject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Subject">
+        <PropertyRef Name="teacher_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Attendance_Teacher">
+    <End Type="AttendanceModel.Teacher" Role="Teacher" Multiplicity="0..1" />
+    <End Type="AttendanceModel.Attendance" Role="Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="teach_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Class">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Attendance" Relationship="AttendanceModel.FK_Attendance_Class" FromRole="Class" ToRole="Attendance" />
+    <NavigationProperty Name="Student" Relationship="AttendanceModel.FK_Class_Student" FromRole="Class" ToRole="Student" />
+    <Property Name="student_id" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_Attendance_Class">
+    <End Type="AttendanceModel.Class" Role="Class" Multiplicity="0..1" />
+    <End Type="AttendanceModel.Attendance" Role="Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Class">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="class_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Class_Student">
+    <End Type="AttendanceModel.Student" Role="Student" Multiplicity="0..1" />
+    <End Type="AttendanceModel.Class" Role="Class" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Class">
+        <PropertyRef Name="student_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
